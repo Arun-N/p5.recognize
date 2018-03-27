@@ -30,6 +30,33 @@ p5.prototype.createRect = function (x, y, width, height, color) {
     shapes.push(rect_obj);
 }
 
+p5.prototype.createTriangle = function (x1, y1, x2, y2, x3, y3, color) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+    this.x3 = x3;
+    this.y3 = y3;
+
+    var cx = (this.x1+this.x2+this.x3)/3;
+    var cy = (this.y1+this.y2+this.y3)/3;
+
+    console.log("cx: " + cx + " cy: " + cy);
+
+    var tri_obj = {
+        type: "triangle",
+        x1: this.x1,
+        y1: this.y1,
+        x2: this.x2,
+        y2: this.y2,
+        x3: this.x3,
+        y3: this.y3,
+        center: [cx, cy],
+        col: color
+    };
+    shapes.push(tri_obj);
+}
+
 p5.prototype.display = function () {
     for(var i=0; i<shapes.length; i++){
         if(shapes[i].type == "circle" || shapes[i].type == "ellipse"){
@@ -39,6 +66,10 @@ p5.prototype.display = function () {
         else if(shapes[i].type == "square" || shapes[i].type == "rectangle"){
             fill(shapes[i].col);
             rect(shapes[i].x, shapes[i].y, shapes[i].w, shapes[i].h);
+        }
+        else if(shapes[i].type == "triangle"){
+            fill(shapes[i].col);
+            triangle(shapes[i].x1, shapes[i].y1, shapes[i].x2, shapes[i].y2, shapes[i].x3, shapes[i].y3);
         }
     }
 }
@@ -83,6 +114,36 @@ p5.prototype.findShapeType = function(mx, my) {
         else if(mini_obj.type == "square"){
             if((abs(mx - mini_obj.center[0]) <= mini_obj.w/2) && (abs(my - mini_obj.center[1]) <= mini_obj.h/2)){
                 return "square";
+            }
+            else{
+                return "background";
+            }
+        }
+        else if(mini_obj.type == "triangle"){
+            //for x1, y1 and x2, y2
+            var x1 = mini_obj.x1*1.0;
+            var y1 = mini_obj.y1*1.0;
+            var x2 = mini_obj.x2*1.0;
+            var y2 = mini_obj.y2*1.0;
+            var x3 = mini_obj.x3*1.0;
+            var y3 = mini_obj.y3*1.0;
+
+            var m1 = (y2-y1)/(x2-x1);
+            var c1 = y1 - (m1*x1);
+            //console.log("m1 = " + m1 + " c1 = " + c1);
+
+            var m2 = (y3-y2)/(x3-x2);
+            var c2 = y2 - (m2*x2);
+            //console.log("m2 = " + m2 + " c2 = " + c2);
+
+            var y_1 = (m1*mx) + c1;
+            //console.log("y = " + y_1);
+
+            y_2 = (m2*mx) + c2;
+            //console.log("y = " + y_2);
+
+            if((y_1 <= y1) && (y_2 <=y2)){
+                return "triangle";
             }
             else{
                 return "background";
