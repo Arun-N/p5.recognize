@@ -41,7 +41,7 @@ p5.prototype.createTriangle = function (x1, y1, x2, y2, x3, y3, color) {
     var cx = (this.x1+this.x2+this.x3)/3;
     var cy = (this.y1+this.y2+this.y3)/3;
 
-    console.log("cx: " + cx + " cy: " + cy);
+    //console.log("cx: " + cx + " cy: " + cy);
 
     var tri_obj = {
         type: "triangle",
@@ -87,7 +87,7 @@ p5.prototype.findShapeType = function(mx, my) {
 
     if(mini_obj != undefined){
         if(mini_obj.type == "circle"){
-            var radius = mini_obj.w;
+            var radius = mini_obj.w/2;
             if(dist(mx, my, mini_obj.x, mini_obj.y) <= radius){
                 return "circle";
             }
@@ -120,7 +120,8 @@ p5.prototype.findShapeType = function(mx, my) {
             }
         }
         else if(mini_obj.type == "triangle"){
-            //for x1, y1 and x2, y2
+            //for (x1, y1), (x2, y2) and (x3, y3)
+            //Using linear inequality to check if point is inside the triangle
             var x1 = mini_obj.x1*1.0;
             var y1 = mini_obj.y1*1.0;
             var x2 = mini_obj.x2*1.0;
@@ -136,13 +137,20 @@ p5.prototype.findShapeType = function(mx, my) {
             var c2 = y2 - (m2*x2);
             //console.log("m2 = " + m2 + " c2 = " + c2);
 
-            var y_1 = (m1*mx) + c1;
-            //console.log("y = " + y_1);
+            var m3 = (y1-y3)/(x1-x3);
+            var c3 = y3 - (m3*x3);
+            //console.log("m3 = " + m3 + " c3 = " + c3);
 
-            y_2 = (m2*mx) + c2;
-            //console.log("y = " + y_2);
+            var c_new_1 = my - (m1*mx);
+            //console.log("c_new_1 = " + c_new_1);
 
-            if((y_1 <= y1) && (y_2 <=y2)){
+            var c_new_2 = my - (m2*mx);
+            //console.log("c_new_2 = " + c_new_2);
+
+            var c_new_3 = my - (m3*mx);
+            //console.log("c_new_3 = " + c_new_3);
+
+            if((c_new_1 >= c1) && (c_new_2 >= c2) && (c_new_3 <= c3)){
                 return "triangle";
             }
             else{
