@@ -14,6 +14,7 @@ function draw() {
 
 function mousePressed() {
 	shapeType = findShapeType(mouseX, mouseY);
-	//console.log(shapeType);
-	alert(shapeType);
+	console.log("type: " + shapeType[0]);
+	console.log("obj: " + shapeType[1]);
+	alert(shapeType[0]);
 }

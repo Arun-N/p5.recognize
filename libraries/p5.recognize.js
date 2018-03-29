@@ -89,34 +89,34 @@ p5.prototype.findShapeType = function(mx, my) {
         if(mini_obj.type == "circle"){
             var radius = mini_obj.w/2;
             if(dist(mx, my, mini_obj.x, mini_obj.y) <= radius){
-                return "circle";
+                return ["circle", mini_obj];
             }
             else{
-                return "background";
+                return ["background", undefined];
             }
         }
         else if(mini_obj.type == "ellipse"){
             if((abs(mx - mini_obj.x) <= mini_obj.w/2) && (abs(my - mini_obj.y) <= mini_obj.h/2)){
-                return "ellipse";
+                return ["ellipse", mini_obj];
             }
             else{
-                return "background";
+                return ["background", undefined];
             }
         }
         else if(mini_obj.type == "rectangle"){
             if((abs(mx - mini_obj.center[0]) <= mini_obj.w/2) && (abs(my - mini_obj.center[1]) <= mini_obj.h/2)){
-                return "rectangle";
+                return ["rectangle", mini_obj];
             }
             else{
-                return "background";
+                return ["background", undefined];
             }
         }
         else if(mini_obj.type == "square"){
             if((abs(mx - mini_obj.center[0]) <= mini_obj.w/2) && (abs(my - mini_obj.center[1]) <= mini_obj.h/2)){
-                return "square";
+                return ["square", mini_obj];
             }
             else{
-                return "background";
+                return ["background", undefined];
             }
         }
         else if(mini_obj.type == "triangle"){
@@ -151,12 +151,12 @@ p5.prototype.findShapeType = function(mx, my) {
             //console.log("c_new_3 = " + c_new_3);
 
             if((c_new_1 >= c1) && (c_new_2 >= c2) && (c_new_3 <= c3)){
-                return "triangle";
+                return ["triangle", mini_obj];
             }
             else{
-                return "background";
+                return ["background", undefined];
             }
         }
     }
-    else return "background";
+    else return ["background", undefined];
 }
