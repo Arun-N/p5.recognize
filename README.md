@@ -1,7 +1,7 @@
 # p5.recognize
 
 
-p5.recognize is a library for p5.js which allows mouse click event to be detected when inside the bounds of a primitive p5 shape. It returns a string value according to the shape on which the mouse click event was registered.
+p5.recognize is a library for p5.js which allows mouse click event to be detected when inside the bounds of a primitive p5 shape. It returns an array containing the obect as well as a string indicating the name of the shape on which the mouse click event was registered.
 
   
 
@@ -68,7 +68,9 @@ function  draw() {
 
 function  mousePressed() {
 	shapeType  =  findShapeType(mouseX, mouseY);
-	alert(shapeType);
+	console.log("type: " + shapeType[0]);
+	console.log("obj: " + shapeType[1]);
+	alert(shapeType[0]);
 }
 ```
 
